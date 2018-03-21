@@ -1,0 +1,83 @@
+digraph G {
+
+  // ====================================================================== //
+  // GRAPH
+  // ====================================================================== //
+
+  //graph setup
+  color=white; fontsize="40"; margin="1"; nodesep="1.5"; rankdir=LR; 
+  ranksep="1.5"; clusterrank=none;
+  
+  // node setup
+  node [color="white" fixedsize="true" fontcolor="white" fontname="serif bold" 
+  fontsize="20" height="2" penwidth="20" style="filled,rounded" width="5"];
+  
+  // edge setup
+  edge [arrowsize="2" color="#badc58" fontname="serif" fontsize="22" 
+  penwidth="4"];
+  
+  // --- GRAPH TITLE GOES HERE -------------------------------------------- //
+
+  // ---------------------------------------------------------------------- //
+
+  // ====================================================================== //
+  // NODES
+  // ====================================================================== //
+
+  // terminal node setup
+  node [fillcolor="#badc58" shape="oval"];
+
+  // --- TERMINAL NODES GO HERE ------------------------------------------- //
+  
+  // ---------------------------------------------------------------------- //
+ 
+  // decision node setup
+  node [fillcolor="#ff7979" height="2.25" shape="diamond" width="5.5"];
+
+  // --- DECISION NODES GO HERE ------------------------------------------- //
+  
+    subgraph 0102 { rank="same";
+      de010101 [label="Did any unit \n test fail?"];
+    }
+      
+  // ---------------------------------------------------------------------- //
+ 
+  // process node setup
+  node [fillcolor="#686de0" height="2" shape="box" width="5"];
+
+  // --- PROCESS NODES GO HERE -------------------------------------------- //
+  
+    subgraph 0101 { rank="same";
+      pr010101 [label="Write a new \n failing unit test"];
+      pr010102 [label="Run all unit tests"];
+    }
+    
+    subgraph 0102 {
+      rank="same";
+      pr010103 [label="Write simplest code \n to get test to pass"];
+    }
+
+  // ---------------------------------------------------------------------- //
+    
+  // input/output node setup
+  node [shape=box fillcolor="#f9ca24" fontname="courier bold" ];
+
+  // --- INPUT/OUTPUT NODES GO HERE---------------------------------------- //
+    
+  // ---------------------------------------------------------------------- //
+
+  // ====================================================================== //
+  // EDGES 
+  // ====================================================================== //
+  
+    pr010101 -> pr010102;
+    pr010102 -> de010101;
+    
+    de010101 -> pr010103;
+    
+    pr010103 -> pr010102;
+  
+  // ====================================================================== //
+
+}
+
