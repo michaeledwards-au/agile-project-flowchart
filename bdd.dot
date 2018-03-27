@@ -77,11 +77,10 @@ io0104 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
 // EDGES 
 //============================================================================//
 
-subgraph {rank="same"; te0101; te0102;}
+subgraph {te0101; te0102;}
 te0101 -> de0105;
-te0102;
 
-subgraph {rank="same"; io0103; de0105;}
+subgraph {rank="same"; io0103; de0105; te0102; }
 io0103 -> de0105;
 de0105 -> pr0101 [taillabel="  Yes  "];
 de0105 -> te0102 [constraint="false" taillabel="  No  "];
