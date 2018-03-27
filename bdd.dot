@@ -25,7 +25,7 @@ label="\n\nBEHAVIOUR-DRIVEN DEVELOPMENT\n by Michael Edwards ";
 //============================================================================//
 
 // terminal node setup
-node [fillcolor="#badc58" shape="oval"];
+node [fillcolor="#badc58" shape="circle" width="2"];
   
 // [TERMINAL NODES]-----------------------------------------------------------//     
   
@@ -35,7 +35,7 @@ te0102 [label="End"];
 //----------------------------------------------------------------------------//
  
 // decision node setup
-node [fillcolor="#ff7979" shape="diamond"];
+node [fillcolor="#ff7979" shape="diamond" width="4.5"];
 
 // [DECISION NODES]-----------------------------------------------------------//     
 
@@ -66,10 +66,10 @@ node [fillcolor="#f9ca24" fontname="courier bold" shape="box"];
 
 // [INPUT/OUTPUT NODES]-------------------------------------------------------//
 
-io0101 [label="git checkout \\\l-b <feature> develop\l"];
-io0102 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
-io0103 [label="git checkout develop\lgit merge \\\l--no-ff <feature>\lgit branch -d <feature>\lgit push\l"];
-io0104 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
+io0101 [label="git checkout \\\l  -b <feature> develop\l"];
+io0102 [label="git add .\lgit commit \\\l  -m '<message'\lgit push origin\l"];
+io0103 [label="git checkout develop\lgit merge \\\l  --no-ff <feature>\lgit branch -d <feature>\lgit push\l"];
+io0104 [label="git add .\lgit commit \\\l  -m '<message'\lgit push origin\l"];
 
 //----------------------------------------------------------------------------//          
 
@@ -77,29 +77,28 @@ io0104 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
 // EDGES 
 //============================================================================//
 
-subgraph {te0101; te0102;}
 te0101 -> de0105;
 
-subgraph {rank="same"; io0103; de0105; te0102; }
+subgraph {rank="same"; io0103; de0105; te0102;}
 io0103 -> de0105;
-de0105 -> pr0101 [taillabel="  Yes  "];
-de0105 -> te0102 [constraint="false" taillabel="  No  "];
+de0105 -> pr0101 [taillabel="Yes "];
+de0105 -> te0102 [constraint="false" taillabel="No"];
 
 pr0101 -> io0101;
 
 io0101 -> pr0102;
 
 subgraph {rank="same"; de0102; pr0102;}
-de0102 -> io0103 [constraint="false" taillabel="  Yes  "];
-de0102 -> pr0102 [taillabel="  No  "];
+de0102 -> io0103 [constraint="false" taillabel="Yes "];
+de0102 -> pr0102 [taillabel="No"];
 pr0102 -> pr0103;
 
 pr0103 -> de0101;
 
 subgraph {rank="same"; io0102; de0101;}
 io0102 -> de0102 [constraint="false"];
-io0102 -> de0101 [dir="back" headlabel="  No  "];
-de0101 -> pr0104 [taillabel="  Yes  "];
+io0102 -> de0101 [dir="back" headlabel="No"];
+de0101 -> pr0104 [taillabel="Yes "];
 
 pr0104 -> pr0106;
 
@@ -107,12 +106,12 @@ pr0106 -> de0103;
 
 subgraph {rank="same"; pr0107; de0103;}
 pr0107 -> pr0106 [constraint="false"];
-pr0107 -> de0103 [dir="back" headlabel="  Yes  "];
-de0103 -> de0104 [taillabel="  No  "];
+pr0107 -> de0103 [dir="back" headlabel="Yes"];
+de0103 -> de0104 [taillabel="No "];
 
-subgraph {rank="same"; de0104; io0104; }
-de0104 -> pr0107 [constraint="false" taillabel="  Yes  "];
-de0104 -> io0104 [taillabel="  No  "];
+subgraph {rank="same"; de0104; io0104;}
+de0104 -> pr0107 [constraint="false" taillabel="Yes"];
+de0104 -> io0104 [taillabel="No"];
 io0104 -> pr0103 [constraint="false"];
 
 
