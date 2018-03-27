@@ -1,0 +1,122 @@
+digraph G {
+
+//============================================================================//
+// GRAPH
+//============================================================================//
+
+// graph setup
+fontsize="40"; margin="1"; nodesep="1.5"; ranksep="1"; splines="ortho";
+
+// default node setup
+node [color=white fontcolor="white" fontname="serif bold" fontsize="18"
+fixedsize="true" height="2" margin="0.5" penwidth="20" style="filled"
+width="4"];
+
+// default edge setup
+edge [arrowsize="1" color="#badc58" fontname="serif" fontsize="18" 
+penwidth="4"];
+  
+// [GRAPH TITLE]--------------------------------------------------------------//
+
+label="\n\nBEHAVIOUR-DRIVEN DEVELOPMENT\n by Michael Edwards ";
+  
+//============================================================================//
+// NODES
+//============================================================================//
+
+// terminal node setup
+node [fillcolor="#badc58" shape="oval"];
+  
+// [TERMINAL NODES]-----------------------------------------------------------//     
+  
+te0101 [label="Start"];
+te0102 [label="End"];
+  
+//----------------------------------------------------------------------------//
+ 
+// decision node setup
+node [fillcolor="#ff7979" shape="diamond"];
+
+// [DECISION NODES]-----------------------------------------------------------//     
+
+de0101 [label="Did any\nbehaviour tests\nfail?"];
+de0102 [label="Is feature\ncompleted?"];
+de0103 [label="Did any\nunit tests\n\fail?"];
+de0104 [label="Is there\nany code\nduplication?"];
+de0105 [label="Is there\nany more\nfeatures?"];
+
+//----------------------------------------------------------------------------//
+ 
+// process node setup
+node [fillcolor="#686de0" shape="box"];
+
+// [PROCESS NODES]------------------------------------------------------------//     
+
+pr0101 [label="Pick next feature"];
+pr0102 [label="Add a new\nbehaviour test"];
+pr0103 [label="Run all\nbehaviour tests"];
+pr0104 [label="Add a new\nunit test"];
+pr0106 [label="Run all\nunit tests"];
+pr0107 [label="Write/Refactor code"];
+
+//----------------------------------------------------------------------------//
+ 
+// input/output node setup
+node [fillcolor="#f9ca24" fontname="courier bold" shape="box"];
+
+// [INPUT/OUTPUT NODES]-------------------------------------------------------//
+
+io0101 [label="git checkout \\\l-b <feature> develop\l"];
+io0102 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
+io0103 [label="git checkout develop\lgit merge \\\l--no-ff <feature>\lgit branch -d <feature>\lgit push\l"];
+io0104 [label="git add .\lgit commit \\\l-m '<message'\lgit push origin\l"];
+
+//----------------------------------------------------------------------------//          
+
+//============================================================================//
+// EDGES 
+//============================================================================//
+
+subgraph {rank="same"; te0101; te0102;}
+te0101 -> de0105;
+te0102;
+
+subgraph {rank="same"; io0103; de0105;}
+io0103 -> de0105;
+de0105 -> pr0101 [taillabel="  Yes  "];
+de0105 -> te0102 [constraint="false" taillabel="  No  "];
+
+pr0101 -> io0101;
+
+io0101 -> pr0102;
+
+subgraph {rank="same"; de0102; pr0102;}
+de0102 -> io0103 [constraint="false" taillabel="  Yes  "];
+de0102 -> pr0102 [taillabel="  No  "];
+pr0102 -> pr0103;
+
+pr0103 -> de0101;
+
+subgraph {rank="same"; io0102; de0101;}
+io0102 -> de0102 [constraint="false"];
+io0102 -> de0101 [dir="back" headlabel="  No  "];
+de0101 -> pr0104 [taillabel="  Yes  "];
+
+pr0104 -> pr0106;
+
+pr0106 -> de0103;
+
+subgraph {rank="same"; pr0107; de0103;}
+pr0107 -> pr0106 [constraint="false"];
+pr0107 -> de0103 [dir="back" headlabel="  Yes  "];
+de0103 -> de0104 [taillabel="  No  "];
+
+subgraph {rank="same"; de0104; io0104; }
+de0104 -> pr0107 [constraint="false" taillabel="  Yes  "];
+de0104 -> io0104 [taillabel="  No  "];
+io0104 -> pr0103 [constraint="false"];
+
+
+//============================================================================//
+}
+
